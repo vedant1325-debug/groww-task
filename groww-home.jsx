@@ -21,6 +21,8 @@ import {
   Wallet,
   User,
   Flame,
+  Lock,
+  LockOpen,
 } from "lucide-react";
 
 /* ------------------------------------------------------------------ */
@@ -54,36 +56,47 @@ function calcSellCharges(orderValue, stocksSold = 1, cfg = SELL_CHARGES) {
 /* Design tokens                                                       */
 /* ------------------------------------------------------------------ */
 
+// Groww light theme. Text-bearing greens/greys/reds sit one step darker on Groww's own scale for WCAG AA.
 const C = {
-  paper: "#F3F6F2",
-  ink: "#10231A",
-  sub: "#5B6B62",
-  line: "#DFE6E0",
-  forest: "#0A3D2A",
-  mint: "#1DB76F",
-  mintDeep: "#0F6B45",
-  mintSoft: "#E3F5EB",
-  loss: "#B3564C",
-  lossSoft: "#F7E9E6",
-  amber: "#9A5F0E",
-  amberSoft: "#FBF1DF",
+  paper: "#F8F8F8", // page ground (gray50)
+  ink: "#44475B", // primary text (gray900)
+  sub: "#696C7C", // secondary text (gray800)
+  line: "#E9E9EB", // hairlines and card borders (gray150)
+  track: "#DDDEE1", // progress tracks, connectors, handles (gray200)
+  control: "#C7C8CE", // unselected control borders, inactive dots, disabled fills (gray300)
+  faint: "#B0B2BA", // disabled glyphs (gray400)
+  forest: "#00825C", // primary action fill with white label, active state text (green11)
+  mint: "#04B488", // brand green for fills, bars, dots, icons (green9)
+  mintDeep: "#00825C", // green text and gains (green11)
+  mintSoft: "#E9FAF3", // green tint surfaces (green2)
+  loss: "#D23A15", // loss text and icons (red11)
+  lossSoft: "#FFF1ED", // loss tint (red2)
+  amber: "#8A5A00", // warning text
+  amberSoft: "#FFF7DE", // warning tint (yellow2)
+  amberLine: "#FFE7AA", // warning border (yellow4)
+  info: "#4452D6", // secondary accent text (blue11)
+  infoSoft: "#F2F5FF", // secondary accent tint (blue2)
+  mintLine: "#CDF3E3", // green tint border (green4)
+  chip: "#F0F0F2", // neutral tag fill (gray100)
+  scrim: "rgba(18,18,18,.5)",
 };
 
 const STYLES = `
-@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Onest:wght@400;500;600&display=swap');
-.gw { font-family: 'Onest', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; color: ${C.ink}; -webkit-font-smoothing: antialiased; }
-.gw-display { font-family: 'Bricolage Grotesque', 'Onest', ui-sans-serif, system-ui, sans-serif; letter-spacing: -0.02em; }
+@import url('https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&display=swap');
+.gw { font-family: 'Figtree', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; color: ${C.ink}; -webkit-font-smoothing: antialiased; }
+.gw-display { font-family: 'Figtree', ui-sans-serif, system-ui, sans-serif; letter-spacing: -0.01em; }
 .gw-num { font-variant-numeric: tabular-nums; }
 .gw button { -webkit-tap-highlight-color: transparent; }
 .gw ::selection { background: ${C.mintSoft}; color: ${C.forest}; }
 .gw input, .gw textarea { caret-color: ${C.mintDeep}; }
+.gw input:focus-visible, .gw textarea:focus-visible { outline: 2px solid ${C.forest}; outline-offset: 1px; }
 .gw button { transition: transform .16s cubic-bezier(.16,1,.3,1), background-color .16s, border-color .16s, opacity .16s; }
 .gw button:not(:disabled):active { transform: scale(.97); }
 .gw button:disabled { cursor: not-allowed; }
-.gw button:focus-visible { outline: 2px solid ${C.mint}; outline-offset: 2px; }
+.gw button:focus-visible { outline: 2px solid ${C.forest}; outline-offset: 2px; }
 .gw-phone { height: calc(100dvh - 52px); }
 @media (min-width: 640px) {
-  .gw-phone { height: min(860px, calc(100dvh - 96px)); border-radius: 36px; border: 1px solid #D2DBD4; box-shadow: 0 40px 80px -40px rgba(10, 61, 42, .45); }
+  .gw-phone { height: min(860px, calc(100dvh - 96px)); border-radius: 36px; border: 1px solid ${C.track}; box-shadow: 0 32px 64px -32px rgba(68, 71, 91, .28); }
 }
 .gw-scroll { scrollbar-width: none; }
 .gw-scroll::-webkit-scrollbar { display: none; }
@@ -135,8 +148,8 @@ const MARKET = {
 const PORTFOLIO = { current: 48250, invested: 45000 };
 
 const ALLOCATION = [
-  { id: "mf", label: "Mutual funds", pct: 70, color: C.mintDeep },
-  { id: "stocks", label: "Stocks", pct: 30, color: "#48C98A" },
+  { id: "mf", label: "Mutual funds", pct: 70, color: C.mint },
+  { id: "stocks", label: "Stocks", pct: 30, color: "#5367FF" },
 ];
 
 const TRADING_PNL_MONTH = -1840;
@@ -466,33 +479,33 @@ const QUIZ = {
 };
 
 const FUNDS = [
-  { id: "banyan", name: "Banyan Nifty 50 Index Fund", initials: "BN", color: "#2F6F5E", expense: 0.1, return3y: 13.4, minSip: 100, tag: "Lowest cost" },
-  { id: "lotus", name: "Lotus Nifty 50 Index Fund", initials: "LT", color: "#5E5596", expense: 0.18, return3y: 13.2, minSip: 500 },
-  { id: "meridian", name: "Meridian Nifty 50 Index Fund", initials: "MR", color: "#A85F2A", expense: 0.2, return3y: 13.1, minSip: 100 },
+  { id: "banyan", name: "Banyan Nifty 50 Index Fund", initials: "BN", expense: 0.1, return3y: 13.4, minSip: 100, tag: "Lowest cost" },
+  { id: "lotus", name: "Lotus Nifty 50 Index Fund", initials: "LT", expense: 0.18, return3y: 13.2, minSip: 500 },
+  { id: "meridian", name: "Meridian Nifty 50 Index Fund", initials: "MR", expense: 0.2, return3y: 13.1, minSip: 100 },
 ];
 
 // Stocks (Phase 3). Fictional companies, mock numbers. Large and mid caps only.
 const STOCKS = [
   {
-    id: "kaveri", name: "Kaveri Power Grid", initials: "KP", color: "#2D5F8B",
+    id: "kaveri", name: "Kaveri Power Grid", initials: "KP",
     sector: "Power utilities", tier: "Large cap", mcapCr: 112400, price: 1450, dayChange: -0.6,
     pe: 18.2, sectorPe: 21.5, consistency: 8, revenueYears: 3, profitYears: 2, swings: "Low",
     about: "Runs electricity transmission lines across five states.",
   },
   {
-    id: "sahyadri", name: "Sahyadri Foods", initials: "SF", color: "#8A5A2B",
+    id: "sahyadri", name: "Sahyadri Foods", initials: "SF",
     sector: "Packaged foods", tier: "Large cap", mcapCr: 221800, price: 2310, dayChange: 0.4,
     pe: 52.0, sectorPe: 46.8, consistency: 9, revenueYears: 3, profitYears: 3, swings: "Low",
     about: "Makes biscuits, snacks and ready-to-cook meals sold across India.",
   },
   {
-    id: "narmada", name: "Narmada Cement", initials: "NC", color: "#5F6670",
+    id: "narmada", name: "Narmada Cement", initials: "NC",
     sector: "Cement", tier: "Mid cap", mcapCr: 54300, price: 1245, dayChange: 1.2,
     pe: 27.4, sectorPe: 30.1, consistency: 6, revenueYears: 2, profitYears: 2, swings: "Medium",
     about: "Produces cement for housing and infrastructure in central India.",
   },
   {
-    id: "indus", name: "Indus Payments", initials: "IP", color: "#6A4C93",
+    id: "indus", name: "Indus Payments", initials: "IP",
     sector: "Digital payments", tier: "Mid cap", mcapCr: 41600, price: 500, dayChange: -2.1,
     pe: 61.3, sectorPe: 38.0, consistency: 4, revenueYears: 3, profitYears: 1, swings: "High",
     about: "Runs a UPI app and payment terminals for small shops.",
@@ -526,7 +539,7 @@ const RISK_COLORS = ["#5DBB8A", "#9CCB64", "#D9C24F", "#E5A04A", "#DE7C45", "#C8
 
 const MF_FUNDS = [
   {
-    id: "nifty50", name: "Nifty 50 Index Fund", category: "Index fund", filters: ["index"], initials: "NF", color: "#2F6F5E",
+    id: "nifty50", name: "Nifty 50 Index Fund", category: "Index fund", filters: ["index"], initials: "NF",
     expense: 0.2, return3y: 13.2, risk: "Very High", minSip: 100, minOnce: 100,
     about: [
       "It buys the 50 largest companies on the NSE in the same proportions as the Nifty 50 index.",
@@ -534,7 +547,7 @@ const MF_FUNDS = [
     ],
   },
   {
-    id: "next50", name: "Nifty Next 50 Index Fund", category: "Index fund", filters: ["index"], initials: "NN", color: "#3B6E8F",
+    id: "next50", name: "Nifty Next 50 Index Fund", category: "Index fund", filters: ["index"], initials: "NN",
     expense: 0.3, return3y: 17.8, risk: "Very High", minSip: 100, minOnce: 100,
     about: [
       "It buys the 50 companies ranked just below the Nifty 50: large, but still growing.",
@@ -542,7 +555,7 @@ const MF_FUNDS = [
     ],
   },
   {
-    id: "liquid", name: "Liquid Fund", category: "Liquid", filters: ["low"], initials: "LQ", color: "#3D7C6A",
+    id: "liquid", name: "Liquid Fund", category: "Liquid", filters: ["low"], initials: "LQ",
     expense: 0.15, return3y: 6.9, risk: "Low to Moderate", minSip: 500, minOnce: 500,
     about: [
       "It lends money for up to 91 days to the government, banks and large companies.",
@@ -550,7 +563,7 @@ const MF_FUNDS = [
     ],
   },
   {
-    id: "baf", name: "Balanced Advantage Fund", category: "Hybrid", filters: [], initials: "BA", color: "#7A5C99",
+    id: "baf", name: "Balanced Advantage Fund", category: "Hybrid", filters: [], initials: "BA",
     expense: 0.75, return3y: 11.6, risk: "High", minSip: 500, minOnce: 1000,
     about: [
       "It moves money between shares and bonds depending on how expensive the stock market looks.",
@@ -558,7 +571,7 @@ const MF_FUNDS = [
     ],
   },
   {
-    id: "elss", name: "ELSS Tax Saver Fund", category: "ELSS", filters: ["tax"], initials: "TS", color: "#A0612E",
+    id: "elss", name: "ELSS Tax Saver Fund", category: "ELSS", filters: ["tax"], initials: "TS",
     expense: 0.65, return3y: 15.1, risk: "Very High", minSip: 500, minOnce: 500,
     about: [
       "It invests mainly in shares of Indian companies, and each investment is locked in for 3 years.",
@@ -566,7 +579,7 @@ const MF_FUNDS = [
     ],
   },
   {
-    id: "sdd", name: "Short Duration Debt Fund", category: "Debt", filters: ["low"], initials: "SD", color: "#5D6B7A",
+    id: "sdd", name: "Short Duration Debt Fund", category: "Debt", filters: ["low"], initials: "SD",
     expense: 0.35, return3y: 7.2, risk: "Moderate", minSip: 1000, minOnce: 1000,
     about: [
       "It lends to companies and the government for roughly 1 to 3 years.",
@@ -739,9 +752,9 @@ function SectionTitle({ children }) {
 
 const TONES = {
   amber: { bg: C.amberSoft, fg: C.amber },
-  neutral: { bg: "#E8EEF3", fg: "#3E5566" },
+  neutral: { bg: C.infoSoft, fg: C.info },
   mint: { bg: C.mintSoft, fg: C.mintDeep },
-  grey: { bg: "#EEF1EF", fg: C.sub },
+  grey: { bg: C.chip, fg: C.sub },
 };
 
 function Tag({ tone = "neutral", children }) {
@@ -759,7 +772,7 @@ function Progress({ value, max }) {
     <div className="mt-2.5">
       <div
         className="h-2 w-full overflow-hidden rounded-full"
-        style={{ background: "#E6ECE8" }}
+        style={{ background: C.track }}
         role="progressbar"
         aria-valuenow={pct}
         aria-valuemin={0}
@@ -801,8 +814,8 @@ function Header({ onOpenAI, showIntro }) {
     <header className="flex items-center justify-between px-5 pb-3 pt-5">
       <div className="flex min-w-0 items-center gap-3">
         <div
-          className="gw-display flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-base font-bold text-white"
-          style={{ background: C.forest }}
+          className="gw-display flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-base font-bold"
+          style={{ background: C.mintSoft, color: C.mintDeep }}
           aria-hidden="true"
         >
           {USER.initial}
@@ -825,11 +838,11 @@ function Header({ onOpenAI, showIntro }) {
             >
               <div
                 className="gw-tip relative whitespace-nowrap rounded-xl px-3 py-2 text-xs font-medium text-white"
-                style={{ background: C.forest, boxShadow: "0 8px 20px -8px rgba(10,61,42,.5)" }}
+                style={{ background: C.ink, boxShadow: "0 8px 20px -8px rgba(68,71,91,.45)" }}
               >
                 <span
                   className="absolute h-2.5 w-2.5"
-                  style={{ top: -4, left: "50%", marginLeft: -5, background: C.forest, transform: "rotate(45deg)" }}
+                  style={{ top: -4, left: "50%", marginLeft: -5, background: C.ink, transform: "rotate(45deg)" }}
                 />
                 Hi {USER.name}! I'm your AI assistant
               </div>
@@ -843,7 +856,7 @@ function Header({ onOpenAI, showIntro }) {
           <Bell size={20} />
           <span
             className="absolute h-2.5 w-2.5 rounded-full"
-            style={{ top: 9, right: 10, background: C.mint, border: `2px solid ${C.paper}` }}
+            style={{ top: 9, right: 10, background: C.loss, border: `2px solid ${C.paper}` }}
           />
         </IconButton>
       </div>
@@ -888,10 +901,10 @@ function MarketStrip() {
 function PortfolioCard({ hidden, onToggle, onOpenHoldings }) {
   const gain = PORTFOLIO.current - PORTFOLIO.invested;
   const pct = (gain / PORTFOLIO.invested) * 100;
-  const dim = { color: "rgba(255,255,255,.7)" };
+  const dim = { color: C.sub };
 
   return (
-    <section className="mx-4 rounded-3xl p-5 text-white" style={{ background: C.forest }}>
+    <section className="mx-4 rounded-3xl bg-white p-5" style={{ border: `1px solid ${C.line}` }}>
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0">
           <p className="text-sm" style={dim}>Current value</p>
@@ -904,20 +917,20 @@ function PortfolioCard({ hidden, onToggle, onOpenHoldings }) {
           aria-label={hidden ? "Show amounts" : "Hide amounts"}
           aria-pressed={hidden}
           className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full"
-          style={{ background: "rgba(255,255,255,.1)" }}
+          style={{ background: C.paper, color: C.sub }}
         >
           {hidden ? <EyeOff size={18} /> : <Eye size={18} />}
         </button>
       </div>
 
-      <div className="mt-5 grid grid-cols-2 gap-4 pt-4" style={{ borderTop: "1px solid rgba(255,255,255,.14)" }}>
+      <div className="mt-5 grid grid-cols-2 gap-4 pt-4" style={{ borderTop: `1px solid ${C.line}` }}>
         <div className="min-w-0">
           <p className="text-xs" style={dim}>Invested</p>
           <p className="gw-num mt-0.5 text-base font-semibold">{hidden ? MASK : formatINR(PORTFOLIO.invested)}</p>
         </div>
         <div className="min-w-0">
           <p className="text-xs" style={dim}>Total gain</p>
-          <p className="gw-num mt-0.5 text-base font-semibold" style={{ color: "#7BE3AE" }}>
+          <p className="gw-num mt-0.5 text-base font-semibold" style={{ color: C.mintDeep }}>
             {hidden ? MASK : `${formatSigned(gain)} (+${pct.toFixed(1)}%)`}
           </p>
         </div>
@@ -926,8 +939,8 @@ function PortfolioCard({ hidden, onToggle, onOpenHoldings }) {
         <p className="text-xs" style={dim}>Since you started investing</p>
         <button
           onClick={onOpenHoldings}
-          className="flex shrink-0 items-center gap-0.5 rounded-full py-1.5 pl-3 pr-2 text-xs font-semibold text-white"
-          style={{ background: "rgba(255,255,255,.12)" }}
+          className="flex shrink-0 items-center gap-0.5 rounded-full py-1.5 pl-3 pr-2 text-xs font-semibold"
+          style={{ background: C.mintSoft, color: C.mintDeep }}
         >
           View holdings
           <ChevronRight size={14} />
@@ -997,9 +1010,9 @@ function AllocationCard({ hidden }) {
 }
 
 function WelcomeCard({ sip, onStart }) {
-  const dim = { color: "rgba(255,255,255,.75)" };
+  const dim = { color: C.sub };
   return (
-    <section className="mx-4 rounded-3xl p-5 text-white" style={{ background: C.forest }}>
+    <section className="mx-4 rounded-3xl p-5" style={{ background: C.mintSoft, border: `1px solid ${C.mintLine}` }}>
       {sip ? (
         <>
           <p className="gw-display text-2xl font-bold leading-tight">You're all set, {USER.name}</p>
@@ -1010,7 +1023,7 @@ function WelcomeCard({ sip, onStart }) {
       ) : (
         <>
           <p className="gw-display text-2xl font-bold leading-tight">Hi {USER.name}</p>
-          <p className="gw-display mt-1 text-xl font-medium leading-snug" style={{ color: "#7BE3AE" }}>
+          <p className="gw-display mt-1 text-xl font-semibold leading-snug" style={{ color: C.mintDeep }}>
             Your first investment can be just ₹100.
           </p>
           <p className="mt-2 text-sm leading-relaxed" style={dim}>
@@ -1018,8 +1031,8 @@ function WelcomeCard({ sip, onStart }) {
           </p>
           <button
             onClick={onStart}
-            className="mt-5 w-full rounded-full py-3 text-sm font-semibold"
-            style={{ background: "#fff", color: C.forest }}
+            className="mt-5 w-full rounded-lg py-3 text-sm font-semibold text-white"
+            style={{ background: C.forest }}
           >
             Start your first SIP
           </button>
@@ -1048,11 +1061,11 @@ function NextStepsCard({ tasks, emergencySaved, onOpen }) {
       <p className="mt-0.5 text-xs" style={{ color: C.sub }}>Picked for you based on your account.</p>
 
       {tasks.length > 0 ? (
-        <ul className="mt-3 space-y-2">
-          {tasks.map((t) => (
-            <li key={t.id}>
+        <ul className="mt-2">
+          {tasks.map((t, i) => (
+            <li key={t.id} style={i ? { borderTop: `1px solid ${C.line}` } : undefined}>
               {t.done ? (
-                <div className="gw-fade flex w-full items-center gap-3 rounded-xl bg-white p-3" style={{ border: `1px solid ${C.line}` }}>
+                <div className="gw-fade flex w-full items-center gap-3 py-3">
                   <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full" style={{ background: C.mint }}>
                     <Check size={14} color="#fff" strokeWidth={3} />
                   </span>
@@ -1069,8 +1082,7 @@ function NextStepsCard({ tasks, emergencySaved, onOpen }) {
               ) : (
                 <button
                   onClick={() => onOpen(t.id)}
-                  className="flex w-full items-center gap-3 rounded-xl p-3 text-left"
-                  style={{ background: C.paper, border: `1px solid ${C.line}` }}
+                  className="flex w-full items-center gap-3 py-3 text-left"
                 >
                   <div className="min-w-0 flex-1">
                     <p className="text-sm font-medium leading-snug">{t.title}</p>
@@ -1115,7 +1127,7 @@ function LearnCard() {
         {answered && (
           <span
             className="gw-pop shrink-0 rounded-full px-2.5 py-1 text-xs font-semibold"
-            style={{ background: "#FFF0DE", color: "#8F470A" }}
+            style={{ background: C.amberSoft, color: C.amber }}
             aria-live="polite"
           >
             <Flame size={13} className="mr-1 inline-block align-[-2px]" aria-hidden="true" />
@@ -1128,7 +1140,7 @@ function LearnCard() {
       <button onClick={() => setPlaying(true)} className="mt-3 flex w-full gap-3 rounded-xl text-left" aria-label="Play 60-second reel: What is an expense ratio?">
         <div
           className="relative h-28 w-20 shrink-0 overflow-hidden rounded-xl"
-          style={{ background: `linear-gradient(165deg, ${C.mintDeep}, ${C.forest})` }}
+          style={{ background: C.forest }}
         >
           <span className="gw-display absolute left-2 top-2 text-2xl font-bold" style={{ color: "rgba(255,255,255,.22)" }}>
             0.1%
@@ -1151,16 +1163,16 @@ function LearnCard() {
           )}
         </div>
         <div className="min-w-0 py-1">
-          <p className="text-xs font-medium" style={{ color: C.mintDeep }}>60-second reel</p>
-          <p className="gw-display mt-1 text-base font-bold leading-snug">What is an expense ratio?</p>
+          <p className="gw-display text-base font-bold leading-snug">What is an expense ratio?</p>
           <p className="mt-1 text-xs leading-relaxed" style={{ color: C.sub }}>
             {playing ? "Playing…" : "The yearly fee a fund charges, and why a small one adds up over time."}
           </p>
+          <p className="mt-2 text-xs font-medium" style={{ color: C.sub }}>60-second reel</p>
         </div>
       </button>
 
       {/* Daily quiz */}
-      <div className="mt-4 rounded-xl p-3" style={{ background: C.paper }}>
+      <div className="mt-4 pt-4" style={{ borderTop: `1px solid ${C.line}` }}>
         <p className="text-xs font-medium" style={{ color: C.sub }}>
           {answered ? "Daily quiz" : "Daily quiz · answer to keep your streak"}
         </p>
@@ -1206,8 +1218,8 @@ function StartHere() {
           <Card key={f.id}>
             <div className="flex items-start gap-3">
               <div
-                className="gw-display flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-sm font-bold text-white"
-                style={{ background: f.color }}
+                className="gw-display flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-sm font-bold"
+                style={{ background: C.paper, border: `1px solid ${C.line}`, color: C.ink }}
                 aria-hidden="true"
               >
                 {f.initials}
@@ -1228,7 +1240,7 @@ function StartHere() {
               </div>
               <div>
                 <p className="text-xs" style={{ color: C.sub }}>3Y return</p>
-                <p className="gw-num mt-0.5 text-sm font-semibold" style={{ color: C.mintDeep }}>
+                <p className="gw-num mt-0.5 text-sm font-semibold">
                   {f.return3y.toFixed(1)}% p.a.
                 </p>
               </div>
@@ -1236,7 +1248,7 @@ function StartHere() {
 
             <div className="mt-3 flex items-center justify-between gap-2">
               <span className="gw-num text-xs" style={{ color: C.sub }}>Min SIP {formatINR(f.minSip)}</span>
-              <button className="rounded-full px-4 py-2 text-sm font-semibold text-white" style={{ background: C.forest }}>
+              <button className="rounded-lg px-4 py-2 text-sm font-semibold text-white" style={{ background: C.forest }}>
                 Start SIP
               </button>
             </div>
@@ -1295,8 +1307,8 @@ function HomeScreen({
 function StockLogo({ s, size = 40 }) {
   return (
     <div
-      className="gw-display flex shrink-0 items-center justify-center rounded-xl text-sm font-bold text-white"
-      style={{ width: size, height: size, background: s.color }}
+      className="gw-display flex shrink-0 items-center justify-center rounded-xl text-sm font-bold"
+      style={{ width: size, height: size, background: "#fff", border: `1px solid ${C.line}`, color: C.ink }}
       aria-hidden="true"
     >
       {s.initials}
@@ -1471,7 +1483,7 @@ function RiskMeter({ risk }) {
     <span className="flex items-center gap-2" aria-label={`Risk: ${risk}`}>
       <span className="flex gap-0.5" aria-hidden="true">
         {RISK_LEVELS.map((r, i) => (
-          <span key={r} className="h-1.5 w-3 rounded-full" style={{ background: i <= level ? RISK_COLORS[i] : "#E3E9E5" }} />
+          <span key={r} className="h-1.5 w-3 rounded-full" style={{ background: i <= level ? RISK_COLORS[i] : C.track }} />
         ))}
       </span>
       <span className="text-xs font-semibold">{risk}</span>
@@ -1747,10 +1759,10 @@ function FundDetail({ f, showTip, onTipSeen, onBack, onStartSip, onInvestOnce, o
         </div>
 
         {tip && (
-          <div className="gw-fade mt-4 flex gap-2 rounded-xl p-3" style={{ background: C.mintSoft, color: C.mintDeep }} role="note">
-            <Info size={16} className="mt-0.5 shrink-0" />
+          <div className="gw-fade mt-4 flex gap-2 rounded-xl p-3" style={{ background: C.mintSoft, color: C.ink }} role="note">
+            <Info size={16} className="mt-0.5 shrink-0" style={{ color: C.mintDeep }} />
             <p className="flex-1 text-xs leading-relaxed">
-              <span className="font-semibold">What is an expense ratio?</span> It's the yearly fee the fund charges. 0.20% means ₹2 per year on every ₹1,000 invested.
+              <span className="font-semibold" style={{ color: C.mintDeep }}>What is an expense ratio?</span> It's the yearly fee the fund charges. 0.20% means ₹2 per year on every ₹1,000 invested.
             </p>
             <button onClick={() => setTip(false)} aria-label="Dismiss" className="-mr-1 -mt-1 flex h-7 w-7 shrink-0 items-center justify-center rounded-full">
               <X size={14} />
@@ -1824,8 +1836,8 @@ function AccountScreen({ isNew, fnoProgress, nomineeAdded, onOpenFno }) {
     <div className="pb-8">
       <header className="flex items-center gap-3 px-5 pb-4 pt-6">
         <div
-          className="gw-display flex h-12 w-12 items-center justify-center rounded-full text-lg font-bold text-white"
-          style={{ background: C.forest }}
+          className="gw-display flex h-12 w-12 items-center justify-center rounded-full text-lg font-bold"
+          style={{ background: C.mintSoft, color: C.mintDeep }}
           aria-hidden="true"
         >
           {USER.initial}
@@ -1892,12 +1904,12 @@ function OrderSheet({ stock, onClose, onConfirm }) {
 
   return (
     <div className="absolute inset-0 z-10 flex flex-col justify-end" role="dialog" aria-label={`Buy ${stock.name}`}>
-      <button aria-label="Close order" onClick={onClose} className="gw-fade absolute inset-0" style={{ background: "rgba(16,35,26,.45)" }} />
+      <button aria-label="Close order" onClick={onClose} className="gw-fade absolute inset-0" style={{ background: C.scrim }} />
       <div
         className="gw-rise gw-scroll relative overflow-y-auto rounded-t-3xl bg-white px-5 pt-3"
         style={{ maxHeight: "92%", paddingBottom: "calc(16px + env(safe-area-inset-bottom))" }}
       >
-        <div className="mx-auto h-1 w-10 rounded-full" style={{ background: "#D5DDD7" }} />
+        <div className="mx-auto h-1 w-10 rounded-full" style={{ background: C.track }} />
         <div className="mt-3 flex items-start justify-between gap-2">
           <div className="min-w-0">
             <h2 className="gw-display text-lg font-bold leading-tight">Buy {stock.name}</h2>
@@ -1916,7 +1928,7 @@ function OrderSheet({ stock, onClose, onConfirm }) {
               disabled={qty <= 1}
               aria-label="Decrease quantity"
               className="flex h-9 w-9 items-center justify-center rounded-full text-lg font-semibold"
-              style={{ border: `1.5px solid ${C.line}`, color: qty <= 1 ? "#B4C0B8" : C.ink }}
+              style={{ border: `1.5px solid ${C.line}`, color: qty <= 1 ? C.faint : C.ink }}
             >
               −
             </button>
@@ -2050,7 +2062,7 @@ function StockPage({ stock, owned, onBack, onBuy, onAskAI, onDone, onSell }) {
           <MetricCard title="3-year consistency" value={`${stock.consistency}/10`} chip={<ConsistencyBadge score={stock.consistency} />}>
             <div className="flex gap-1" aria-hidden="true">
               {Array.from({ length: 10 }).map((_, i) => (
-                <span key={i} className="h-1.5 flex-1 rounded-full" style={{ background: i < stock.consistency ? C.mint : "#E3E9E5" }} />
+                <span key={i} className="h-1.5 flex-1 rounded-full" style={{ background: i < stock.consistency ? C.mint : C.track }} />
               ))}
             </div>
             <p className="mt-2">
@@ -2117,7 +2129,7 @@ function FnoTracker({ progress }) {
             {i > 0 && (
               <span
                 className="absolute h-0.5"
-                style={{ top: 13, right: "50%", width: "100%", background: progress[FNO_STEPS[i - 1].id] ? C.mint : "#DCE4DE" }}
+                style={{ top: 13, right: "50%", width: "100%", background: progress[FNO_STEPS[i - 1].id] ? C.mint : C.track }}
                 aria-hidden="true"
               />
             )}
@@ -2126,7 +2138,7 @@ function FnoTracker({ progress }) {
               style={{
                 zIndex: 1,
                 background: done ? C.mint : "#fff",
-                border: `2px solid ${done ? C.mint : isCurrent ? C.forest : "#C9D3CC"}`,
+                border: `2px solid ${done ? C.mint : isCurrent ? C.forest : C.control}`,
                 color: isCurrent ? C.forest : C.sub,
               }}
             >
@@ -2175,7 +2187,7 @@ function FnoMockScreen() {
         </table>
         <div
           className="absolute inset-x-0 bottom-0 px-3 py-2 text-center text-xs font-medium"
-          style={{ background: "rgba(255,255,255,.92)", borderTop: `1px solid ${C.line}` }}
+          style={{ background: "#fff", borderTop: `1px solid ${C.line}` }}
         >
           Mock screen. F&amp;O trading isn't part of this prototype.
         </div>
@@ -2199,17 +2211,17 @@ function FnoTab({ isNew, progress, onStart, onReview }) {
       {isNew ? (
         <section
           className="mx-4 rounded-2xl bg-white p-4"
-          style={{ border: unlocked ? `1px solid ${C.line}` : "1.5px dashed #C9D3CC" }}
+          style={{ border: unlocked ? `1px solid ${C.line}` : `1.5px dashed ${C.control}` }}
         >
           <div className="flex items-center gap-2">
-            <span aria-hidden="true">{unlocked ? "🔓" : "🔒"}</span>
+            {unlocked ? <LockOpen size={18} color={C.mintDeep} aria-hidden="true" /> : <Lock size={18} color={C.sub} aria-hidden="true" />}
             <SectionTitle>Advanced: F&amp;O</SectionTitle>
             <span className="ml-auto">
               <Tag tone={unlocked ? "mint" : "grey"}>{unlocked ? "Unlocked" : "Locked"}</Tag>
             </span>
           </div>
           {!unlocked && (
-            <p className="mt-3 rounded-xl p-3 text-sm leading-relaxed" style={{ background: C.amberSoft, color: "#6B4309" }}>
+            <p className="mt-3 rounded-xl p-3 text-sm leading-relaxed" style={{ background: C.amberSoft, color: C.amber }}>
               {FNO_STAT}
             </p>
           )}
@@ -2224,7 +2236,7 @@ function FnoTab({ isNew, progress, onStart, onReview }) {
           ) : (
             <button
               onClick={onStart}
-              className="mt-4 w-full rounded-full py-2.5 text-sm font-semibold"
+              className="mt-4 w-full rounded-lg py-2.5 text-sm font-semibold"
               style={{ border: `1.5px solid ${C.forest}`, color: C.forest }}
             >
               {started ? "Continue module" : "Start module"}
@@ -2234,7 +2246,7 @@ function FnoTab({ isNew, progress, onStart, onReview }) {
       ) : (
         <section className="mx-4 rounded-2xl bg-white p-4" style={{ border: `1px solid ${C.line}` }}>
           <div className="flex items-center gap-2">
-            <span aria-hidden="true">🔓</span>
+            <LockOpen size={18} color={C.mintDeep} aria-hidden="true" />
             <SectionTitle>F&amp;O</SectionTitle>
             <span className="ml-auto">
               <Tag tone="mint">Unlocked</Tag>
@@ -2296,8 +2308,8 @@ function ConceptCarousel({ index, setIndex }) {
             aria-label={`${i + 1} of ${n}: ${c.title}`}
             aria-hidden={i !== index}
           >
-            <div className="flex h-28 items-end px-5 pb-4" style={{ background: C.forest }}>
-              <span className="gw-display gw-num text-4xl font-bold leading-none" style={{ color: "#7BE3AE" }}>{c.big}</span>
+            <div className="flex h-28 items-end px-5 pb-4" style={{ background: C.mintSoft }}>
+              <span className="gw-display gw-num text-4xl font-bold leading-none" style={{ color: C.mintDeep }}>{c.big}</span>
             </div>
             <div className="p-5">
               <h2 className="gw-display text-xl font-bold">{c.title}</h2>
@@ -2400,7 +2412,7 @@ function FnoModule({ progress, onProgress, onUnlock, onBack, reviewOnly = false 
               <span
                 key={c.id}
                 className="h-1.5 rounded-full"
-                style={{ width: i === cardIndex ? 20 : 6, background: i === cardIndex ? C.forest : "#C9D3CC", transition: "width .2s" }}
+                style={{ width: i === cardIndex ? 20 : 6, background: i === cardIndex ? C.forest : C.control, transition: "width .2s" }}
               />
             ))}
           </div>
@@ -2443,7 +2455,7 @@ function FnoModule({ progress, onProgress, onUnlock, onBack, reviewOnly = false 
                             >
                               <span
                                 className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full"
-                                style={{ border: `1.5px solid ${active ? C.mint : "#B4C0B8"}`, background: "#fff" }}
+                                style={{ border: `1.5px solid ${active ? C.mint : C.control}`, background: "#fff" }}
                                 aria-hidden="true"
                               >
                                 {active && <span className="h-2.5 w-2.5 rounded-full" style={{ background: C.mint }} />}
@@ -2480,7 +2492,7 @@ function FnoModule({ progress, onProgress, onUnlock, onBack, reviewOnly = false 
           >
             <span
               className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-md"
-              style={{ border: `1.5px solid ${ack ? C.mint : "#B4C0B8"}`, background: ack ? C.mint : "#fff" }}
+              style={{ border: `1.5px solid ${ack ? C.mint : C.control}`, background: ack ? C.mint : "#fff" }}
             >
               {ack && <Check size={14} color="#fff" strokeWidth={3} />}
             </span>
@@ -2532,12 +2544,12 @@ function FnoModule({ progress, onProgress, onUnlock, onBack, reviewOnly = false 
 function BottomSheet({ label, onClose, children }) {
   return (
     <div className="absolute inset-0 flex flex-col justify-end" role="dialog" aria-label={label}>
-      <button aria-label="Close" onClick={onClose} className="gw-fade absolute inset-0" style={{ background: "rgba(16,35,26,.45)" }} />
+      <button aria-label="Close" onClick={onClose} className="gw-fade absolute inset-0" style={{ background: C.scrim }} />
       <div
         className="gw-rise gw-scroll relative overflow-y-auto rounded-t-3xl bg-white px-5 pt-3"
         style={{ maxHeight: "92%", paddingBottom: "calc(16px + env(safe-area-inset-bottom))" }}
       >
-        <div className="mx-auto h-1 w-10 rounded-full" style={{ background: "#D5DDD7" }} />
+        <div className="mx-auto h-1 w-10 rounded-full" style={{ background: C.track }} />
         {children}
       </div>
     </div>
@@ -2628,7 +2640,7 @@ function Switch({ on, onChange, label }) {
       aria-label={label}
       onClick={() => onChange(!on)}
       className="relative h-7 w-12 shrink-0 rounded-full"
-      style={{ background: on ? C.mint : "#C9D3CC", transition: "background .2s" }}
+      style={{ background: on ? C.mint : C.control, transition: "background .2s" }}
     >
       <span
         className="absolute rounded-full bg-white"
@@ -2696,7 +2708,7 @@ function SellProgress({ stock, qty, net, onDone }) {
                 {!last && (
                   <span
                     className="absolute w-0.5"
-                    style={{ left: 13, top: 30, bottom: 2, background: s.status === "done" ? C.mint : "#DCE4DE" }}
+                    style={{ left: 13, top: 30, bottom: 2, background: s.status === "done" ? C.mint : C.track }}
                     aria-hidden="true"
                   />
                 )}
@@ -2704,7 +2716,7 @@ function SellProgress({ stock, qty, net, onDone }) {
                   className="relative flex h-7 w-7 shrink-0 items-center justify-center rounded-full"
                   style={{
                     background: s.status === "done" ? C.mint : "#fff",
-                    border: `2px solid ${s.status === "done" ? C.mint : s.status === "active" ? C.forest : "#C9D3CC"}`,
+                    border: `2px solid ${s.status === "done" ? C.mint : s.status === "active" ? C.forest : C.control}`,
                   }}
                   aria-hidden="true"
                 >
@@ -2826,7 +2838,7 @@ function SellFlow({ lot, onClose, onSell, onAskAI }) {
             disabled={qty <= 1}
             aria-label="Decrease quantity"
             className="flex h-9 w-9 items-center justify-center rounded-full text-lg font-semibold"
-            style={{ border: `1.5px solid ${C.line}`, color: qty <= 1 ? "#B4C0B8" : C.ink }}
+            style={{ border: `1.5px solid ${C.line}`, color: qty <= 1 ? C.faint : C.ink }}
           >
             −
           </button>
@@ -2847,7 +2859,7 @@ function SellFlow({ lot, onClose, onSell, onAskAI }) {
             disabled={qty >= lot.qty}
             aria-label="Increase quantity"
             className="flex h-9 w-9 items-center justify-center rounded-full text-lg font-semibold"
-            style={{ border: `1.5px solid ${C.line}`, color: qty >= lot.qty ? "#B4C0B8" : C.ink }}
+            style={{ border: `1.5px solid ${C.line}`, color: qty >= lot.qty ? C.faint : C.ink }}
           >
             +
           </button>
@@ -2864,7 +2876,7 @@ function SellFlow({ lot, onClose, onSell, onAskAI }) {
         className="mt-4 rounded-xl p-3"
         style={{
           background: ch.isHigh ? C.amberSoft : C.paper,
-          border: `1px solid ${ch.isHigh ? "#EED9B4" : C.line}`,
+          border: `1px solid ${ch.isHigh ? C.amberLine : C.line}`,
         }}
       >
         <p className="gw-num text-sm font-semibold" style={{ color: ch.isHigh ? C.amber : C.ink }}>
@@ -2904,7 +2916,7 @@ function SellFlow({ lot, onClose, onSell, onAskAI }) {
           </div>
         )}
         {valid && showBreakdown && (
-          <dl className="gw-fade gw-num mt-3 space-y-1.5 pt-3 text-xs" style={{ borderTop: `1px dashed ${ch.isHigh ? "#E3C894" : C.line}` }}>
+          <dl className="gw-fade gw-num mt-3 space-y-1.5 pt-3 text-xs" style={{ borderTop: `1px dashed ${ch.isHigh ? C.amberLine : C.line}` }}>
             {breakdown.map(([k, v]) => (
               <div key={k} className="flex justify-between gap-3">
                 <dt style={{ color: C.sub }}>{k}</dt>
@@ -2969,8 +2981,8 @@ function PrimaryButton({ children, disabled, onClick }) {
     <button
       onClick={onClick}
       disabled={disabled}
-      className="gw-num w-full rounded-full py-3 text-sm font-semibold text-white"
-      style={{ background: disabled ? "#9DB3A7" : C.forest }}
+      className="gw-num w-full rounded-lg py-3 text-sm font-semibold text-white"
+      style={{ background: disabled ? C.control : C.forest }}
     >
       {children}
     </button>
@@ -2981,7 +2993,7 @@ function SecondaryButton({ children, onClick }) {
   return (
     <button
       onClick={onClick}
-      className="w-full rounded-full bg-white py-3 text-sm font-semibold"
+      className="w-full rounded-lg bg-white py-3 text-sm font-semibold"
       style={{ border: `1.5px solid ${C.line}`, color: C.ink }}
     >
       {children}
@@ -3169,10 +3181,10 @@ function SipPage({ onBack, onComplete }) {
         </div>
       }
     >
-      <div className="rounded-2xl p-5 text-white" style={{ background: C.forest }}>
-        <p className="text-sm" style={{ color: "rgba(255,255,255,.7)" }}>Monthly SIP</p>
+      <div className="rounded-2xl bg-white p-5" style={{ border: `1px solid ${C.line}` }}>
+        <p className="text-sm" style={{ color: C.sub }}>Monthly SIP</p>
         <p className="gw-display gw-num mt-1 text-4xl font-bold leading-none">{formatINR(SIP.amount)}</p>
-        <p className="mt-3 text-sm" style={{ color: "#7BE3AE" }}>Due in 3 days</p>
+        <p className="mt-3 inline-block rounded-full px-2.5 py-0.5 text-xs font-semibold" style={{ background: C.amberSoft, color: C.amber }}>Due in 3 days</p>
       </div>
 
       <ul className="mt-4 rounded-2xl bg-white px-4" style={{ border: `1px solid ${C.line}` }}>
@@ -3320,7 +3332,7 @@ function FirstSipFlow({ onBack, onComplete, presetFund = null }) {
       <p className="text-xs font-medium" style={{ color: C.sub }}>Step 1 of 2</p>
       <div className="mt-1.5 flex gap-1.5" aria-hidden="true">
         <span className="h-1 flex-1 rounded-full" style={{ background: C.mint }} />
-        <span className="h-1 flex-1 rounded-full" style={{ background: "#DCE4DE" }} />
+        <span className="h-1 flex-1 rounded-full" style={{ background: C.track }} />
       </div>
 
       <p className="mt-5 text-sm font-medium">How much every month?</p>
@@ -3389,8 +3401,8 @@ function FirstSipFlow({ onBack, onComplete, presetFund = null }) {
               }}
             >
               <div
-                className="gw-display flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-sm font-bold text-white"
-                style={{ background: f.color }}
+                className="gw-display flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-sm font-bold"
+                style={{ background: C.paper, border: `1px solid ${C.line}`, color: C.ink }}
                 aria-hidden="true"
               >
                 {f.initials}
@@ -3408,7 +3420,7 @@ function FirstSipFlow({ onBack, onComplete, presetFund = null }) {
               </div>
               <span
                 className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full"
-                style={{ border: `1.5px solid ${active ? C.mint : "#B4C0B8"}`, background: "#fff" }}
+                style={{ border: `1.5px solid ${active ? C.mint : C.control}`, background: "#fff" }}
                 aria-hidden="true"
               >
                 {active && <span className="h-2.5 w-2.5 rounded-full" style={{ background: C.mint }} />}
@@ -3496,7 +3508,7 @@ function Bubble({ m }) {
         style={{
           maxWidth: "86%",
           background: guard ? C.amberSoft : "#fff",
-          border: `1px solid ${guard ? "#EED9B4" : C.line}`,
+          border: `1px solid ${guard ? C.amberLine : C.line}`,
           color: C.ink,
         }}
       >
@@ -3620,7 +3632,7 @@ function ChatScreen({ messages, setMessages, initialPrompt, ctx, onClose }) {
           disabled={!canSend}
           aria-label="Send"
           className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-white"
-          style={{ background: canSend ? C.forest : "#9DB3A7" }}
+          style={{ background: canSend ? C.forest : C.control }}
         >
           <ArrowUp size={18} />
         </button>
@@ -3644,7 +3656,7 @@ function ComingSoon({ tab, onHome }) {
       <p className="mt-2 text-sm leading-relaxed" style={{ color: C.sub }}>
         We're building this next. Your wealth summary is on Home.
       </p>
-      <button onClick={onHome} className="mt-5 rounded-full px-5 py-2.5 text-sm font-semibold text-white" style={{ background: C.forest }}>
+      <button onClick={onHome} className="mt-5 rounded-lg px-5 py-2.5 text-sm font-semibold text-white" style={{ background: C.forest }}>
         Go to Home
       </button>
     </div>
@@ -3687,7 +3699,7 @@ function DemoToggle({ mode, onChange }) {
   return (
     <div className="flex shrink-0 items-center justify-center gap-2.5 py-2.5" role="group" aria-label="Demo: choose user state">
       <span className="text-xs font-medium" style={{ color: C.sub }}>View as</span>
-      <div className="flex rounded-full bg-white p-1" style={{ border: "1px solid #D2DBD4" }}>
+      <div className="flex rounded-full bg-white p-1" style={{ border: `1px solid ${C.track}` }}>
         {options.map((o) => {
           const active = mode === o.id;
           return (
@@ -3913,7 +3925,7 @@ export default function App() {
     );
 
   return (
-    <div className="gw flex min-h-screen w-full flex-col items-center sm:justify-center" style={{ background: "#E2E9E4" }}>
+    <div className="gw flex min-h-screen w-full flex-col items-center sm:justify-center" style={{ background: "#EEEFF1" }}>
       <style>{STYLES}</style>
       <DemoToggle mode={mode} onChange={switchMode} />
       <div className="gw-phone relative flex w-full flex-col overflow-hidden" style={{ maxWidth: 400, background: C.paper }}>

@@ -1,0 +1,529 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-08T23:11:01+00:00",
+  "title": "Design System: Groww Beginner Mode",
+  "extensions": {
+    "colorMeta": {
+      "ground": {
+        "role": "neutral",
+        "displayName": "Paper Ground",
+        "canonical": "#F8F8F8",
+        "tonalRamp": [
+          "#121212",
+          "#44475B",
+          "#696C7C",
+          "#B0B2BA",
+          "#C7C8CE",
+          "#DDDEE1",
+          "#E9E9EB",
+          "#F8F8F8"
+        ]
+      },
+      "surface": {
+        "role": "neutral",
+        "displayName": "White Surface",
+        "canonical": "#FFFFFF",
+        "tonalRamp": [
+          "#121212",
+          "#44475B",
+          "#696C7C",
+          "#B0B2BA",
+          "#C7C8CE",
+          "#DDDEE1",
+          "#E9E9EB",
+          "#F8F8F8"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Groww Ink",
+        "canonical": "#44475B",
+        "tonalRamp": [
+          "#121212",
+          "#44475B",
+          "#696C7C",
+          "#B0B2BA",
+          "#C7C8CE",
+          "#DDDEE1",
+          "#E9E9EB",
+          "#F8F8F8"
+        ]
+      },
+      "ink-secondary": {
+        "role": "neutral",
+        "displayName": "Slate Secondary",
+        "canonical": "#696C7C",
+        "tonalRamp": [
+          "#121212",
+          "#44475B",
+          "#696C7C",
+          "#B0B2BA",
+          "#C7C8CE",
+          "#DDDEE1",
+          "#E9E9EB",
+          "#F8F8F8"
+        ]
+      },
+      "hairline": {
+        "role": "neutral",
+        "displayName": "Hairline",
+        "canonical": "#E9E9EB",
+        "tonalRamp": [
+          "#121212",
+          "#44475B",
+          "#696C7C",
+          "#B0B2BA",
+          "#C7C8CE",
+          "#DDDEE1",
+          "#E9E9EB",
+          "#F8F8F8"
+        ]
+      },
+      "track": {
+        "role": "neutral",
+        "displayName": "Track",
+        "canonical": "#DDDEE1",
+        "tonalRamp": [
+          "#121212",
+          "#44475B",
+          "#696C7C",
+          "#B0B2BA",
+          "#C7C8CE",
+          "#DDDEE1",
+          "#E9E9EB",
+          "#F8F8F8"
+        ]
+      },
+      "control": {
+        "role": "neutral",
+        "displayName": "Control Grey",
+        "canonical": "#C7C8CE",
+        "tonalRamp": [
+          "#121212",
+          "#44475B",
+          "#696C7C",
+          "#B0B2BA",
+          "#C7C8CE",
+          "#DDDEE1",
+          "#E9E9EB",
+          "#F8F8F8"
+        ]
+      },
+      "disabled": {
+        "role": "neutral",
+        "displayName": "Disabled Glyph",
+        "canonical": "#B0B2BA",
+        "tonalRamp": [
+          "#121212",
+          "#44475B",
+          "#696C7C",
+          "#B0B2BA",
+          "#C7C8CE",
+          "#DDDEE1",
+          "#E9E9EB",
+          "#F8F8F8"
+        ]
+      },
+      "chip-neutral": {
+        "role": "neutral",
+        "displayName": "Chip Grey",
+        "canonical": "#F0F0F2",
+        "tonalRamp": [
+          "#121212",
+          "#44475B",
+          "#696C7C",
+          "#B0B2BA",
+          "#C7C8CE",
+          "#DDDEE1",
+          "#E9E9EB",
+          "#F8F8F8"
+        ]
+      },
+      "groww-green": {
+        "role": "primary",
+        "displayName": "Groww Green",
+        "canonical": "#04B488",
+        "tonalRamp": [
+          "#003D2B",
+          "#00825C",
+          "#04B488",
+          "#3DCB9C",
+          "#8EE3C3",
+          "#CDF3E3",
+          "#E9FAF3",
+          "#F5FDF9"
+        ]
+      },
+      "green-text": {
+        "role": "primary",
+        "displayName": "Deep Groww Green",
+        "canonical": "#00825C",
+        "tonalRamp": [
+          "#003D2B",
+          "#00825C",
+          "#04B488",
+          "#3DCB9C",
+          "#8EE3C3",
+          "#CDF3E3",
+          "#E9FAF3",
+          "#F5FDF9"
+        ]
+      },
+      "green-tint": {
+        "role": "primary",
+        "displayName": "Green Mist",
+        "canonical": "#E9FAF3",
+        "tonalRamp": [
+          "#003D2B",
+          "#00825C",
+          "#04B488",
+          "#3DCB9C",
+          "#8EE3C3",
+          "#CDF3E3",
+          "#E9FAF3",
+          "#F5FDF9"
+        ]
+      },
+      "green-tint-line": {
+        "role": "primary",
+        "displayName": "Green Mist Line",
+        "canonical": "#CDF3E3",
+        "tonalRamp": [
+          "#003D2B",
+          "#00825C",
+          "#04B488",
+          "#3DCB9C",
+          "#8EE3C3",
+          "#CDF3E3",
+          "#E9FAF3",
+          "#F5FDF9"
+        ]
+      },
+      "loss": {
+        "role": "tertiary",
+        "displayName": "Loss Red",
+        "canonical": "#D23A15",
+        "tonalRamp": [
+          "#5C1707",
+          "#A52A0C",
+          "#D23A15",
+          "#EB5B3C",
+          "#F59A84",
+          "#FFD3C6",
+          "#FFF1ED",
+          "#FFF8F6"
+        ]
+      },
+      "loss-tint": {
+        "role": "tertiary",
+        "displayName": "Loss Mist",
+        "canonical": "#FFF1ED",
+        "tonalRamp": [
+          "#5C1707",
+          "#A52A0C",
+          "#D23A15",
+          "#EB5B3C",
+          "#F59A84",
+          "#FFD3C6",
+          "#FFF1ED",
+          "#FFF8F6"
+        ]
+      },
+      "warning-text": {
+        "role": "tertiary",
+        "displayName": "Warning Amber",
+        "canonical": "#8A5A00",
+        "tonalRamp": [
+          "#3D2700",
+          "#8A5A00",
+          "#B87A00",
+          "#E0A100",
+          "#FFCF4D",
+          "#FFE7AA",
+          "#FFF7DE",
+          "#FFFCF2"
+        ]
+      },
+      "warning-tint": {
+        "role": "tertiary",
+        "displayName": "Warning Cream",
+        "canonical": "#FFF7DE",
+        "tonalRamp": [
+          "#3D2700",
+          "#8A5A00",
+          "#B87A00",
+          "#E0A100",
+          "#FFCF4D",
+          "#FFE7AA",
+          "#FFF7DE",
+          "#FFFCF2"
+        ]
+      },
+      "warning-line": {
+        "role": "tertiary",
+        "displayName": "Warning Line",
+        "canonical": "#FFE7AA",
+        "tonalRamp": [
+          "#3D2700",
+          "#8A5A00",
+          "#B87A00",
+          "#E0A100",
+          "#FFCF4D",
+          "#FFE7AA",
+          "#FFF7DE",
+          "#FFFCF2"
+        ]
+      },
+      "info": {
+        "role": "secondary",
+        "displayName": "Groww Indigo",
+        "canonical": "#4452D6",
+        "tonalRamp": [
+          "#1A2170",
+          "#2F3AA8",
+          "#4452D6",
+          "#5367FF",
+          "#8C99FF",
+          "#C4CBFF",
+          "#F2F5FF",
+          "#F8FAFF"
+        ]
+      },
+      "info-tint": {
+        "role": "secondary",
+        "displayName": "Indigo Mist",
+        "canonical": "#F2F5FF",
+        "tonalRamp": [
+          "#1A2170",
+          "#2F3AA8",
+          "#4452D6",
+          "#5367FF",
+          "#8C99FF",
+          "#C4CBFF",
+          "#F2F5FF",
+          "#F8FAFF"
+        ]
+      },
+      "stocks-blue": {
+        "role": "secondary",
+        "displayName": "Stocks Blue",
+        "canonical": "#5367FF",
+        "tonalRamp": [
+          "#1A2170",
+          "#2F3AA8",
+          "#4452D6",
+          "#5367FF",
+          "#8C99FF",
+          "#C4CBFF",
+          "#F2F5FF",
+          "#F8FAFF"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "The one hero money figure per view: portfolio value, net sale amount, SIP amount."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Page titles and large amount inputs."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Card section titles and sub-page header titles."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Row titles (500), explanations (400, relaxed leading), button labels (600)."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Tags, chips, nav labels, hints, errors, progress captions. Sentence case."
+      }
+    },
+    "shadows": [
+      {
+        "name": "tooltip-lift",
+        "value": "0 8px 20px -8px rgba(68,71,91,.45)",
+        "purpose": "The one-time Ask AI intro tooltip."
+      },
+      {
+        "name": "switch-knob",
+        "value": "0 1px 3px rgba(0,0,0,.2)",
+        "purpose": "White knob of a toggle switch."
+      },
+      {
+        "name": "device-frame",
+        "value": "0 32px 64px -32px rgba(68,71,91,.28)",
+        "purpose": "Desktop phone-frame presentation only."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease-out-expo",
+        "value": "cubic-bezier(.16,1,.3,1)",
+        "purpose": "Press scale, fades, slides, sheet rise."
+      },
+      {
+        "name": "duration-press",
+        "value": "160ms",
+        "purpose": "Button background, border and press-scale transitions."
+      },
+      {
+        "name": "duration-enter",
+        "value": "220-250ms",
+        "purpose": "Screen slide, fade and bottom-sheet rise."
+      },
+      {
+        "name": "press-scale",
+        "value": "scale(.97)",
+        "purpose": "Active state on enabled buttons; off under reduced motion."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "sm",
+        "value": "640px"
+      }
+    ],
+    "scrim": "rgba(18,18,18,.5)",
+    "dataViz": {
+      "riskometer": [
+        "#5DBB8A",
+        "#9CCB64",
+        "#D9C24F",
+        "#E5A04A",
+        "#DE7C45",
+        "#C8553D"
+      ]
+    }
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Full-width deep-green action with white label; disabled turns control grey.",
+      "html": "<button class=\"ds-btn-primary\">Start SIP of ₹100</button>",
+      "css": ".ds-btn-primary{font-family:Figtree,ui-sans-serif,system-ui,sans-serif;width:100%;background:#00825C;color:#fff;border:none;border-radius:8px;padding:12px 16px;font-size:14px;font-weight:600;font-variant-numeric:tabular-nums;cursor:pointer;transition:transform .16s cubic-bezier(.16,1,.3,1),background-color .16s;}.ds-btn-primary:active{transform:scale(.97);}.ds-btn-primary:focus-visible{outline:2px solid #00825C;outline-offset:2px;}.ds-btn-primary:disabled{background:#C7C8CE;cursor:not-allowed;}"
+    },
+    {
+      "name": "Secondary Button",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "White full-width button with ink label and 1.5px hairline.",
+      "html": "<button class=\"ds-btn-secondary\">Back to Home</button>",
+      "css": ".ds-btn-secondary{font-family:Figtree,ui-sans-serif,system-ui,sans-serif;width:100%;background:#fff;color:#44475B;border:1.5px solid #E9E9EB;border-radius:8px;padding:12px 16px;font-size:14px;font-weight:600;cursor:pointer;transition:transform .16s cubic-bezier(.16,1,.3,1),border-color .16s;}.ds-btn-secondary:hover{border-color:#DDDEE1;}.ds-btn-secondary:active{transform:scale(.97);}.ds-btn-secondary:focus-visible{outline:2px solid #00825C;outline-offset:2px;}"
+    },
+    {
+      "name": "Tags",
+      "kind": "chip",
+      "refersTo": "tag-green",
+      "description": "Pill tags in tint/text pairs: green, indigo, amber, grey.",
+      "html": "<div class=\"ds-tags\"><span class=\"ds-tag ds-tag-green\">Plan: 5+ year hold</span><span class=\"ds-tag ds-tag-info\">Index fund</span><span class=\"ds-tag ds-tag-amber\">High charges</span><span class=\"ds-tag ds-tag-grey\">No plan set</span></div>",
+      "css": ".ds-tags{display:flex;gap:8px;flex-wrap:wrap;}.ds-tag{font-family:Figtree,ui-sans-serif,system-ui,sans-serif;border-radius:9999px;padding:2px 8px;font-size:12px;font-weight:500;line-height:1.5;}.ds-tag-green{background:#E9FAF3;color:#00825C;}.ds-tag-info{background:#F2F5FF;color:#4452D6;}.ds-tag-amber{background:#FFF7DE;color:#8A5A00;}.ds-tag-grey{background:#F0F0F2;color:#696C7C;}"
+    },
+    {
+      "name": "Portfolio Card",
+      "kind": "card",
+      "refersTo": "card",
+      "description": "White hairline card with ink hero figure, hairline split, signed green gain and green-mist pill link.",
+      "html": "<section class=\"ds-card\"><p class=\"ds-card-label\">Current value</p><p class=\"ds-card-hero\">₹48,250</p><div class=\"ds-card-split\"><div><p class=\"ds-card-label\">Invested</p><p class=\"ds-card-fig\">₹45,000</p></div><div><p class=\"ds-card-label\">Total gain</p><p class=\"ds-card-fig ds-gain\">+₹3,250 (+7.2%)</p></div></div><a class=\"ds-pill-link\" href=\"#\">View holdings ›</a></section>",
+      "css": ".ds-card{font-family:Figtree,ui-sans-serif,system-ui,sans-serif;background:#fff;border:1px solid #E9E9EB;border-radius:12px;padding:16px;color:#44475B;max-width:360px;}.ds-card p{margin:0;}.ds-card-label{font-size:14px;color:#696C7C;}.ds-card-hero{margin-top:4px!important;font-size:36px;font-weight:700;line-height:1;letter-spacing:-.01em;font-variant-numeric:tabular-nums;}.ds-card-split{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:20px;padding-top:16px;border-top:1px solid #E9E9EB;}.ds-card-fig{margin-top:4px!important;font-size:16px;font-weight:600;font-variant-numeric:tabular-nums;}.ds-gain{color:#00825C;}.ds-pill-link{display:inline-block;margin-top:16px;background:#E9FAF3;color:#00825C;border-radius:9999px;padding:6px 12px;font-size:14px;font-weight:600;text-decoration:none;}.ds-pill-link:focus-visible{outline:2px solid #00825C;outline-offset:2px;}"
+    },
+    {
+      "name": "Holdings List",
+      "kind": "custom",
+      "refersTo": "monogram-tile",
+      "description": "Hairline-divided rows inside a card with white monogram tiles and ink figures.",
+      "html": "<section class=\"ds-list\"><div class=\"ds-row\"><span class=\"ds-mono\">KP</span><div class=\"ds-row-main\"><p class=\"ds-row-title\">Kaveri Power Grid</p><span class=\"ds-tag-grey\">No plan set</span></div><div class=\"ds-row-end\"><p class=\"ds-row-fig\">₹7,250</p><p class=\"ds-row-sub\">5 shares</p></div></div><div class=\"ds-row\"><span class=\"ds-mono\">IP</span><div class=\"ds-row-main\"><p class=\"ds-row-title\">Indus Payments</p><span class=\"ds-tag-green\">Plan: 5+ year hold</span></div><div class=\"ds-row-end\"><p class=\"ds-row-fig\">₹1,000</p><p class=\"ds-row-sub\">2 shares</p></div></div></section>",
+      "css": ".ds-list{font-family:Figtree,ui-sans-serif,system-ui,sans-serif;background:#fff;border:1px solid #E9E9EB;border-radius:12px;padding:4px 16px;color:#44475B;max-width:360px;}.ds-list p{margin:0;}.ds-row{display:flex;align-items:center;gap:12px;padding:12px 0;}.ds-row+.ds-row{border-top:1px solid #E9E9EB;}.ds-mono{width:40px;height:40px;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:#fff;border:1px solid #E9E9EB;border-radius:12px;font-size:14px;font-weight:700;color:#44475B;}.ds-row-main{flex:1;min-width:0;}.ds-row-title{font-size:14px;font-weight:500;margin-bottom:4px!important;}.ds-row-end{text-align:right;font-variant-numeric:tabular-nums;}.ds-row-fig{font-size:14px;font-weight:600;}.ds-row-sub{font-size:12px;color:#696C7C;}.ds-tag-grey,.ds-tag-green{border-radius:9999px;padding:2px 8px;font-size:12px;font-weight:500;}.ds-tag-grey{background:#F0F0F2;color:#696C7C;}.ds-tag-green{background:#E9FAF3;color:#00825C;}"
+    },
+    {
+      "name": "Segmented Tabs",
+      "kind": "nav",
+      "refersTo": "segmented-tab-active",
+      "description": "Pill track with hairline; active segment fills deep green.",
+      "html": "<div class=\"ds-seg\" role=\"tablist\"><button class=\"ds-seg-tab\" role=\"tab\">Mutual Funds</button><button class=\"ds-seg-tab ds-on\" role=\"tab\" aria-selected=\"true\">Stocks</button><button class=\"ds-seg-tab\" role=\"tab\">F&amp;O</button></div>",
+      "css": ".ds-seg{font-family:Figtree,ui-sans-serif,system-ui,sans-serif;display:grid;grid-template-columns:repeat(3,1fr);gap:4px;background:#fff;border:1px solid #E9E9EB;border-radius:9999px;padding:4px;max-width:360px;}.ds-seg-tab{font:inherit;background:transparent;color:#44475B;border:none;border-radius:9999px;padding:8px 0;font-size:14px;font-weight:600;cursor:pointer;transition:background-color .16s;}.ds-seg-tab.ds-on{background:#00825C;color:#fff;}.ds-seg-tab:focus-visible{outline:2px solid #00825C;outline-offset:2px;}"
+    },
+    {
+      "name": "Amount Field",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "Labelled amount field: 1.5px hairline, 12px radius, 24px bold tabular value, red on error.",
+      "html": "<label class=\"ds-field\"><span class=\"ds-field-label\">Amount</span><span class=\"ds-field-box\"><span class=\"ds-field-pre\">₹</span><input class=\"ds-field-input\" value=\"1,000\" inputmode=\"numeric\"></span><span class=\"ds-field-hint\">Minimum ₹100</span></label>",
+      "css": ".ds-field{font-family:Figtree,ui-sans-serif,system-ui,sans-serif;display:block;color:#44475B;max-width:360px;}.ds-field-label{display:block;font-size:14px;font-weight:500;margin-bottom:6px;}.ds-field-box{display:flex;align-items:center;background:#fff;border:1.5px solid #E9E9EB;border-radius:12px;transition:border-color .16s;}.ds-field-box:focus-within{border-color:#00825C;}.ds-field-pre{padding-left:16px;font-size:24px;font-weight:700;color:#696C7C;}.ds-field-input{font:inherit;flex:1;min-width:0;border:none;background:transparent;padding:12px 8px;font-size:24px;font-weight:700;color:#44475B;font-variant-numeric:tabular-nums;outline:none;caret-color:#00825C;}.ds-field-hint{display:block;margin-top:4px;font-size:12px;color:#696C7C;}"
+    },
+    {
+      "name": "Bottom Navigation",
+      "kind": "nav",
+      "refersTo": "bottom-nav",
+      "description": "White bar, hairline top; active tab deep green with brand-green top pill.",
+      "html": "<nav class=\"ds-nav\"><button class=\"ds-nav-item ds-active\" aria-current=\"page\"><span class=\"ds-nav-ind\"></span><svg width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z\"/></svg>Home</button><button class=\"ds-nav-item\"><svg width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M3 3v18h18\"/><path d=\"m7 15 4-4 3 3 5-6\"/></svg>Invest</button><button class=\"ds-nav-item\"><svg width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><circle cx=\"12\" cy=\"8\" r=\"4\"/><path d=\"M4 21a8 8 0 0 1 16 0\"/></svg>Account</button></nav>",
+      "css": ".ds-nav{font-family:Figtree,ui-sans-serif,system-ui,sans-serif;display:flex;background:#fff;border-top:1px solid #E9E9EB;max-width:360px;}.ds-nav-item{font:inherit;position:relative;flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;padding:12px 0 10px;background:none;border:none;font-size:12px;font-weight:500;color:#696C7C;cursor:pointer;}.ds-nav-item.ds-active{color:#00825C;font-weight:600;}.ds-nav-ind{position:absolute;top:0;width:32px;height:2px;border-radius:9999px;background:#04B488;}.ds-nav-item:focus-visible{outline:2px solid #00825C;outline-offset:2px;}"
+    }
+  ],
+  "narrative": {
+    "northStar": "Groww, Played Straight",
+    "overview": "This is Groww's own light app with Beginner Mode living inside it. Surfaces are white cards on a near-white ground, separated by hairlines rather than shadows; one sans (Figtree, standing in for the proprietary GrowwSans) carries everything; Groww green is the only brand voice. The guidance (next steps, explanations, charge breakdowns, the F&O lock) is the only new thing, and it arrives in the same quiet materials as the rest of the app, never as a separate visual register.\n\nDensity is Groww's: compact mobile rows, 14px body, big bold ink figures where money is the headline. Tokens come from groww.in's production palette, with text-bearing greens, greys, reds and ambers taken one step darker on Groww's own scale so every text pairing clears WCAG AA. Numbers are always tabular and in Indian format; gain and loss always carry a sign as well as a colour.\n\nThe world rejects the prototype's earlier bespoke forest-and-mint identity and any flourish Groww would not ship.",
+    "keyCharacteristics": [
+      "White bordered cards (12px) on a #F8F8F8 ground; flat, hairline-separated.",
+      "One family, Figtree, bold for figures and headings, tabular numerals for every amount.",
+      "Two greens with split jobs: brand green for fills, bars, dots and icons; darker green for text and white-label buttons.",
+      "Pills only for chips, tags and segmented tabs; 8px for controls.",
+      "Lists inside cards are hairline-divided rows, never nested boxes."
+    ],
+    "rules": [
+      {
+        "name": "The Two Greens Rule",
+        "body": "Brand green (#04B488) fills shapes; deep green (#00825C) carries text and white labels. If a green is behind or forming letters, it is the deep one.",
+        "section": "colors"
+      },
+      {
+        "name": "The Signed Money Rule",
+        "body": "Gains render in deep green with \"+\", losses in loss red with the true minus sign \"−\". Colour never carries the meaning alone.",
+        "section": "colors"
+      },
+      {
+        "name": "The Ink Returns Rule",
+        "body": "Headline values and past-performance return figures are ink; only explicit gain/loss deltas take green or red. Daily moves in dense lists (\"−0.6% today\") stay secondary grey with their sign.",
+        "section": "colors"
+      },
+      {
+        "name": "The Tabular Figures Rule",
+        "body": "Every rupee amount, percentage and count is set with tabular numerals so columns of money align.",
+        "section": "typography"
+      },
+      {
+        "name": "The No Eyebrow Rule",
+        "body": "Headings stand alone; no small label or kicker sits above a section title.",
+        "section": "typography"
+      },
+      {
+        "name": "The Border Not Shadow Rule",
+        "body": "Cards, inputs, tiles and sheets separate with hairlines. A shadow on a resting card is off-world.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "**Do** put white cards (#FFFFFF) with a 1px #E9E9EB border on the #F8F8F8 ground.",
+      "**Do** use #00825C for any green text or white-label green button, and #04B488 only for fills, bars, dots and icons.",
+      "**Do** sign every gain and loss (\"+₹3,250\", \"−₹1,840\") and set all figures in tabular numerals with Indian grouping.",
+      "**Do** keep hero money figures ink, bold, 36px, line-height 1.",
+      "**Do** divide rows inside a card with hairlines.",
+      "**Do** use pills only for chips, tags, segmented tabs and toggles; 8px for buttons; 12px for cards, inputs and tiles.",
+      "**Do** honour reduced motion: entrance animations and the press scale switch off."
+    ],
+    "donts": [
+      "**Don't** set text or white labels on #04B488; it fails AA.",
+      "**Don't** put shadows on resting cards, tiles or inputs.",
+      "**Don't** nest bordered boxes inside a card to separate list items.",
+      "**Don't** fill monogram tiles with brand or random colours.",
+      "**Don't** add eyebrow labels or uppercase kickers above headings.",
+      "**Don't** introduce a second typeface or a bespoke forest-and-mint palette.",
+      "**Don't** convey gain or loss by colour alone."
+    ]
+  }
+}
